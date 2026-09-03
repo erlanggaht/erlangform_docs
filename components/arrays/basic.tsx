@@ -45,7 +45,6 @@ export const ArrayDemo = () => {
         fieldConfig={{
           contacts: {
             section: "Daftar Kontak",
-            layout: { colSpan: 12 },
             array: {
               itemLabel: (_, index) => `Kontak #${index + 1}`,
               addLabel: "+ Tambah Kontak Baru",

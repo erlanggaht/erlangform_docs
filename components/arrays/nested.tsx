@@ -57,7 +57,6 @@ export const NestedArrayDemo = () => {
         fieldConfig={{
           companies: {
             section: "Daftar Perusahaan",
-            layout: { colSpan: 12 },
             array: {
               itemLabel: (item, index) =>
                 item.name ? item.name : `Perusahaan #${index + 1}`,
@@ -80,12 +79,10 @@ export const NestedArrayDemo = () => {
                   { label: "Personal", value: "personal" },
                   { label: "Perusahaan", value: "company" },
                 ],
-                layout: { colSpan: 12, md: 6 },
               },
               phone: {
                 label: "Nomor Telepon",
                 placeholder: "0812xxxxxxxx",
-                layout: { colSpan: 12, md: 6 },
               },
               companyName: {
                 label: "Nama PT/CV",
