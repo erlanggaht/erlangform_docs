@@ -5,8 +5,10 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "dev": "fumadocs-mdx && next dev",
-    "build": "fumadocs-mdx && next build",
+    "fumadocs-dev": "fumadocs-mdx && next dev",
+    "fumadocs-build": "fumadocs-mdx && next build",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint ."
   },
