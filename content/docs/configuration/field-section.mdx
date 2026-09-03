@@ -1,0 +1,150 @@
+---
+title: Field Section
+description: Mengelompokkan field dengan section dan mengatur kelompok melalui sectionConfig.
+---
+
+import { FieldSectionDemo } from '@/components/configuration/field-section';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+<FieldSectionDemo />
+
+Section mengelompokkan field dalam satu form, misalnya informasi akun dan profil. Field dimasukkan ke kelompok melalui `fieldConfig`, lalu kelompoknya diatur melalui `sectionConfig`. Coba klik judul **Profil** pada preview untuk membuka atau menutupnya.
+
+## Penggunaan
+
+Simpan `form.tsx` dan `schema.ts` di folder yang sama.
+
+<Tabs items={["form.tsx", "schema.ts"]}>
+<Tab>
+
+```tsx
+"use client";
+
+import { useForm } from "@tanstack/react-form";
+import { ErlForm } from "erlangform";
+import { schema, type FormValues } from "./schema";
+
+export default function SectionForm() {
+  const form = useForm({
+    defaultValues: {
+      username: "",
+      email: "",
+      fullName: "",
+      bio: "",
+    },
+    validators: { onChange: schema },
+    onSubmit: ({ value }) => console.log(value),
+  });
+
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        void form.handleSubmit();
+      }}
+    >
+      <ErlForm<FormValues>
+        form={form}
+        schema={schema}
+        fieldConfig={{
+          username: {
+            label: "Username",
+            placeholder: "Enter username",
+            section: "account",
+          },
+          email: {
+            label: "Email",
+            placeholder: "nama@example.com",
+            section: "account",
+          },
+          fullName: {
+            label: "Nama lengkap",
+            placeholder: "Masukkan nama lengkap",
+            section: "profile",
+          },
+          bio: {
+            label: "Biography",
+            type: "textarea",
+            section: "profile",
+          },
+        }}
+        sectionConfig={{
+          account: {
+            title: "Informasi akun",
+            description: "Username dan email untuk akun Anda.",
+          },
+          profile: {
+            title: "Profil",
+            description: "Bagian ini bisa dibuka dan ditutup.",
+            collapsible: true,
+            defaultOpen: true,
+          },
+        }}
+      />
+      <button type="submit">Simpan</button>
+    </form>
+  );
+}
+```
+
+</Tab>
+<Tab>
+
+```ts
+import { z } from "zod";
+
+export const schema = z.object({
+  username: z.string().min(3, "Username minimal 3 karakter"),
+  email: z.string().email("Masukkan email yang valid"),
+  fullName: z.string().min(2, "Nama minimal 2 karakter"),
+  bio: z.string(),
+});
+
+export type FormValues = z.infer<typeof schema>;
+```
+
+</Tab>
+</Tabs>
+
+## Hubungan field dan section
+
+| Bagian | Contoh | Peran |
+| --- | --- | --- |
+| Field pada schema | `username`, `email` | Menentukan field dan aturan datanya. |
+| `fieldConfig.namaField.section` | `section: "account"` | Menempatkan field ke kelompok account. |
+| `sectionConfig.account` | `title: "Informasi akun"` | Mengatur tampilan kelompok account. |
+
+Nama `account` dan `profile` adalah key kelompok. Anda bebas memilih namanya, tetapi nilai `section` harus sama dengan key di `sectionConfig`.
+
+`sectionConfig` mengatur kelompok field yang sudah ditandai melalui `section`. Menulis judul di `sectionConfig` saja belum memasukkan field mana pun ke kelompok tersebut.
+
+## Opsi sectionConfig
+
+| Opsi | Fungsi |
+| --- | --- |
+| `title` | Judul kelompok, misalnya Informasi akun. |
+| `description` | Penjelasan singkat di bawah judul. |
+| `collapsible` | Mengaktifkan bagian yang bisa dibuka dan ditutup menggunakan elemen `details`. |
+| `defaultOpen` | Menentukan apakah section collapsible terbuka saat pertama dirender. |
+| `className` | Class CSS pembungkus section. |
+| `headerClassName` | Class CSS untuk header section. |
+| `contentClassName` | Class CSS untuk isi section. |
+
+Pada contoh di atas, kelompok account selalu terlihat, sedangkan kelompok profile bisa dibuka dan ditutup.
+
+## Section tidak mengubah bentuk data
+
+Section hanya mengatur pengelompokan tampilan. Nilai yang disubmit tetap mengikuti schema:
+
+```ts
+{
+  username: "erlangga",
+  email: "erlangga@example.com",
+  fullName: "Erlangga",
+  bio: "React developer",
+}
+```
+
+Tidak ada object `account` atau `profile` dalam hasil tersebut karena keduanya hanya nama kelompok. Jika Anda membutuhkan object bersarang pada hasil form, struktur itu perlu ditulis pada schema dengan `z.object()`.
+
+Pelajari opsi tiap input di [Field Config](/docs/configuration/field-config).

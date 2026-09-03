@@ -33,13 +33,15 @@ const schema = z.object({
   name: z.string().min(2),
 });
 
+type FormValues = z.infer<typeof schema>;
+
 const form = useForm({
   defaultValues: { name: "" },
   validators: { onChange: schema },
   onSubmit: ({ value }) => console.log(value),
 });
 
-<ErlForm form={form} schema={schema} />;
+<ErlForm<FormValues> form={form} schema={schema} />;
 ```
 
 ## Tidak hanya Zod

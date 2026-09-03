@@ -8,6 +8,8 @@ const schema = z.object({
   bio: z.string().min(5, "Biography minimal 5 karakter"),
 });
 
+type FormValues = z.infer<typeof schema>;
+
 export const TextareaDemo = () => {
   const form = useForm({
     defaultValues: { bio: "" },
@@ -23,7 +25,7 @@ export const TextareaDemo = () => {
         void form.handleSubmit();
       }}
     >
-      <ErlForm
+      <ErlForm<FormValues>
         form={form}
         schema={schema}
         fieldConfig={{
@@ -39,4 +41,3 @@ export const TextareaDemo = () => {
     </form>
   );
 };
-

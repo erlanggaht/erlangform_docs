@@ -8,6 +8,8 @@ const schema = z.object({
   acceptTerms: z.boolean(),
 });
 
+type FormValues = z.infer<typeof schema>;
+
 export const CheckboxDemo = () => {
   const form = useForm({
     defaultValues: { acceptTerms: false },
@@ -23,7 +25,7 @@ export const CheckboxDemo = () => {
         void form.handleSubmit();
       }}
     >
-      <ErlForm
+      <ErlForm<FormValues>
         form={form}
         schema={schema}
         fieldConfig={{
@@ -36,4 +38,3 @@ export const CheckboxDemo = () => {
     </form>
   );
 };
-

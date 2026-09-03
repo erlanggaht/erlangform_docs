@@ -1,0 +1,139 @@
+---
+title: Field Config
+description: Mengatur tampilan dan perilaku setiap field melalui fieldConfig.
+---
+
+import { FieldConfigDemo } from '@/components/configuration/field-config';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+```tsx
+ <ErlForm<FormValues>
+        form={form}
+        schema={schema}
+        fieldConfig={{
+          ...
+        }}
+/>
+```
+
+<FieldConfigDemo />
+
+Schema menentukan field dan validasinya. `fieldConfig` mengatur tampilan serta perilaku field tersebut: label, placeholder, deskripsi, jenis input, dan lainnya.
+
+## Penggunaan
+
+Simpan `form.tsx` dan `schema.ts` di folder yang sama.
+
+<Tabs items={["form.tsx", "schema.ts"]}>
+<Tab>
+
+```tsx
+"use client";
+
+import { useForm } from "@tanstack/react-form";
+import { ErlForm } from "erlangform";
+import { schema, type FormValues } from "./schema";
+
+export default function FieldConfigForm() {
+  const form = useForm({
+    defaultValues: { username: "", email: "", bio: "" },
+    validators: { onChange: schema },
+    onSubmit: ({ value }) => console.log(value),
+  });
+
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        void form.handleSubmit();
+      }}
+    >
+      <ErlForm<FormValues>
+        form={form}
+        schema={schema}
+        fieldConfig={{
+          username: {
+            label: "Username",
+            placeholder: "Enter username",
+            description: "Gunakan minimal 3 karakter.",
+          },
+          email: {
+            label: "Email",
+            placeholder: "nama@example.com",
+          },
+          bio: {
+            label: "Biography",
+            type: "textarea",
+            placeholder: "Ceritakan tentang diri Anda",
+          },
+        }}
+      />
+      <button type="submit">Simpan</button>
+    </form>
+  );
+}
+```
+
+</Tab>
+<Tab>
+
+```ts
+import { z } from "zod";
+
+export const schema = z.object({
+  username: z.string().min(3, "Username minimal 3 karakter"),
+  email: z.string().email("Masukkan email yang valid"),
+  bio: z.string(),
+});
+
+export type FormValues = z.infer<typeof schema>;
+```
+
+</Tab>
+</Tabs>
+
+## Properti fieldConfig
+| Opsi | Fungsi |
+| --- | --- |
+| `label` | Teks label input. |
+| `placeholder` | Petunjuk ketika input kosong. |
+| `description` | Teks bantuan untuk field. |
+| `type` | Varian input seperti `text`, `password`, atau `textarea`. |
+| `options` | Daftar pilihan untuk Select, masing-masing berisi `label` dan `value`. |
+| `layout` | Lebar field pada grid 12 kolom, misalnya `{ colSpan: 12, md: 6 }`. |
+| `section` | Nama kelompok tempat field ditampilkan. |
+| `className` / `wrapperClassName` | Class CSS untuk input atau pembungkus field. |
+
+Opsi label, placeholder, type, dan options di atas digunakan pada input biasa. Konfigurasi Object dan Array mengikuti struktur field bersarang.
+
+## Cara membaca fieldConfig
+
+Pada contoh di atas, schema memiliki `username`, `email`, dan `bio`. Konfigurasi memakai nama yang sama:
+
+- `fieldConfig.username` mengatur input username.
+- `fieldConfig.email` mengatur input email.
+- `fieldConfig.bio.type: "textarea"` membuat biography tampil sebagai textarea.
+
+Anda cukup mengisi konfigurasi yang dibutuhkan. Field yang ada di schema tetap dirender meskipun tidak ditulis dalam `fieldConfig`.
+
+## Validasi dan perilaku field
+
+Aturan validasi seperti `.min(3)` tetap ditulis pada schema dan diberikan ke `validators` TanStack Form. Mengganti label atau placeholder tidak mengubah aturan validasi.
+
+Untuk perilaku berdasarkan nilai form, tersedia:
+
+| Opsi | Fungsi |
+| --- | --- |
+| `showIf` | Menampilkan field ketika fungsi mengembalikan `true`. |
+| `disableIf` | Menonaktifkan input ketika kondisi terpenuhi. |
+| `readOnlyIf` | Membuat input hanya bisa dibaca. |
+| `requiredIf` | Mengatur status required pada input. |
+| `clearOnHide` | Mereset nilai ketika field disembunyikan. |
+
+Aturan wajib isi untuk validasi aplikasi tetap perlu didefinisikan pada schema; `requiredIf` tidak menggantikan aturan itu.
+
+## TypeScript
+
+`FormValues` diambil dari schema dengan `z.infer<typeof schema>`. Memberikan tipe ini ke `<ErlForm<FormValues>>` membantu TypeScript memeriksa nama field dan opsi konfigurasinya, termasuk untuk Object dan Array.
+
+Untuk mengelompokkan beberapa field, lanjutkan ke [Field Section](/docs/configuration/field-section).

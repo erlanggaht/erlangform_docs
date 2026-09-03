@@ -22,7 +22,7 @@ Simpan `form.tsx` dan `schema.ts` di folder yang sama.
 
 import { useForm } from "@tanstack/react-form";
 import { ErlForm } from "erlangform";
-import { schema } from "./schema";
+import { schema, type FormValues } from "./schema";
 
 export default function ContactsForm() {
   const form = useForm({
@@ -46,16 +46,22 @@ export default function ContactsForm() {
         void form.handleSubmit();
       }}
     >
-      <ErlForm
+      <ErlForm<FormValues>
         form={form}
         schema={schema}
         fieldConfig={{
           contacts: {
+            section: "contacts",
             array: {
-              itemLabel: "Contact",
+              itemLabel: (_, index) => `Contact ${index + 1}`,
               addLabel: "Tambah contact",
               removeLabel: "Hapus contact",
             },
+          },
+        }}
+        sectionConfig={{
+          contacts: {
+            title: "Daftar Kontak",
           },
         }}
       />
@@ -80,9 +86,11 @@ export const schema = z.object({
     }),
   ),
 });
+
+export type FormValues = z.infer<typeof schema>;
 ```
 
 </Tab>
 </Tabs>
 
-`fieldConfig.contacts.array` mengatur label item dan tombol tambah/hapus. Untuk array di dalam array, lanjutkan ke [Nested Array](/docs/arrays/nested).
+`fieldConfig.contacts.array` mengatur label item dan tombol tambah/hapus. Untuk array di dalam array, lanjutkan ke [Nested Array](/docs/advanced/arrays/nested).

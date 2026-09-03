@@ -1,5 +1,5 @@
 ---
-title: Select Field
+title: Select
 description: Membuat select dengan options.
 ---
 
@@ -8,7 +8,7 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
 <SelectDemo />
 
-Select memakai `z.string()` dan daftar `options` pada `fieldConfig`. type yang di kembalikan berupa `string`.
+Select memakai `z.string()` dan daftar `options` pada `fieldConfig`. Nilai type yang di kembalikan berupa `string`.
 
 ## Penggunaan
 
@@ -22,7 +22,7 @@ Simpan `form.tsx` dan `schema.ts` di folder yang sama.
 
 import { useForm } from "@tanstack/react-form";
 import { ErlForm } from "erlangform";
-import { schema } from "./schema";
+import { schema, type FormValues } from "./schema";
 
 export default function SelectForm() {
   const form = useForm({
@@ -38,7 +38,7 @@ export default function SelectForm() {
         void form.handleSubmit();
       }}
     >
-      <ErlForm
+      <ErlForm<FormValues>
         form={form}
         schema={schema}
         fieldConfig={{
@@ -64,8 +64,10 @@ export default function SelectForm() {
 import { z } from "zod";
 
 export const schema = z.object({
-  bio: z.string().min(5, "Biography minimal 5 karakter"),
+  country: z.string(),
 });
+
+export type FormValues = z.infer<typeof schema>;
 ```
 
 </Tab>

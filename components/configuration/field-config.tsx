@@ -5,22 +5,16 @@ import { ErlForm } from "erlangform";
 import { z } from "zod";
 
 const schema = z.object({
-  profile: z.object({
-    firstName: z.string(),
-    lastName: z.string(),
-  }),
+  username: z.string().min(3, "Username minimal 3 karakter"),
+  email: z.string().email("Masukkan email yang valid"),
+  bio: z.string(),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-export const ObjectDemo = () => {
+export const FieldConfigDemo = () => {
   const form = useForm({
-    defaultValues: {
-      profile: {
-        firstName: "",
-        lastName: "",
-      },
-    },
+    defaultValues: { username: "", email: "", bio: "" },
     validators: { onChange: schema },
     onSubmit: ({ value }) => alert(JSON.stringify(value, null, 2)),
   });
@@ -37,15 +31,19 @@ export const ObjectDemo = () => {
         form={form}
         schema={schema}
         fieldConfig={{
-          profile: {
-            firstName: {
-              label: "First Name",
-              placeholder: "Enter first name",
-            },
-            lastName: {
-              label: "Last Name",
-              placeholder: "Enter last name",
-            },
+          username: {
+            label: "Username",
+            placeholder: "Enter username",
+            description: "Gunakan minimal 3 karakter.",
+          },
+          email: {
+            label: "Email",
+            placeholder: "nama@example.com",
+          },
+          bio: {
+            label: "Biography",
+            type: "textarea",
+            placeholder: "Ceritakan tentang diri Anda",
           },
         }}
       />

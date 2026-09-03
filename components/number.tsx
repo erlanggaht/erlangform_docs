@@ -8,6 +8,8 @@ const schema = z.object({
     age: z.number("Umur harus berupa angka").min(1, "Umur harus lebih dari 0"),
 });
 
+type FormValues = z.infer<typeof schema>;
+
 export const NumberDemo = () => {
     const form = useForm({
         defaultValues: { age: 0 },
@@ -23,7 +25,7 @@ export const NumberDemo = () => {
                 form.handleSubmit();
             }}
         >
-            <ErlForm
+            <ErlForm<FormValues>
                 form={form}
                 schema={schema}
                 fieldConfig={{

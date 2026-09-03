@@ -8,7 +8,7 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
 <ObjectDemo />
 
-Object Field membaca property di dalam `z.object()` secara rekursif. Bentuk `defaultValues` mengikuti struktur object pada schema.
+Object Field membaca property di dalam `z.object()` secara rekursif. Bentuk `defaultValues` mengikuti struktur object pada schema. Nilai type yang dikembalikan `object` 
 
 ## Penggunaan
 
@@ -22,7 +22,7 @@ Simpan `form.tsx` dan `schema.ts` di folder yang sama.
 
 import { useForm } from "@tanstack/react-form";
 import { ErlForm } from "erlangform";
-import { schema } from "./schema";
+import { schema, type FormValues } from "./schema";
 
 export default function ObjectForm() {
   const form = useForm({
@@ -43,7 +43,7 @@ export default function ObjectForm() {
         void form.handleSubmit();
       }}
     >
-      <ErlForm
+      <ErlForm<FormValues>
         form={form}
         schema={schema}
       />
@@ -65,6 +65,8 @@ export const schema = z.object({
     lastName: z.string(),
   }),
 });
+
+export type FormValues = z.infer<typeof schema>;
 ```
 
 </Tab>

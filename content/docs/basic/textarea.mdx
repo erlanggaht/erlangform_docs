@@ -1,14 +1,14 @@
 ---
-title: Password
-description: Membuat password input.
+title: Textarea
+description: Membuat input teks multiline.
 ---
 
-import { PasswordDemo } from '@/components/password';
+import { TextareaDemo } from '@/components/textarea';
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
-<PasswordDemo />
+<TextareaDemo />
 
-Password memakai `z.string()` dengan `type: "password"` pada `fieldConfig` untuk menyamarkan karakter input. type yang di kembalikan berupa `string`.
+Textarea memakai `z.string()` dengan `type: "textarea"` untuk menulis teks dalam beberapa baris. Nilai type yang dikembalikan `string`
 
 ## Penggunaan
 
@@ -22,13 +22,13 @@ Simpan `form.tsx` dan `schema.ts` di folder yang sama.
 
 import { useForm } from "@tanstack/react-form";
 import { ErlForm } from "erlangform";
-import { schema } from "./schema";
+import { schema, type FormValues } from "./schema";
 
-export default function PasswordForm() {
+export default function TextareaForm() {
   const form = useForm({
-    defaultValues: { password: "" },
+    defaultValues: { bio: "" },
     validators: { onChange: schema },
-    onSubmit: () => console.log("Password berhasil divalidasi."),
+    onSubmit: ({ value }) => console.log(value),
   });
 
   return (
@@ -38,14 +38,14 @@ export default function PasswordForm() {
         void form.handleSubmit();
       }}
     >
-      <ErlForm
+      <ErlForm<FormValues>
         form={form}
         schema={schema}
         fieldConfig={{
-          password: {
-            label: "Password",
-            type: "password",
-            placeholder: "Masukkan password",
+          bio: {
+            label: "Biography",
+            type: "textarea",
+            placeholder: "Ceritakan tentang diri Anda",
           },
         }}
       />
@@ -62,11 +62,13 @@ export default function PasswordForm() {
 import { z } from "zod";
 
 export const schema = z.object({
-  password: z.string(),
+  bio: z.string().min(10),
 });
+
+export type FormValues = z.infer<typeof schema>;
 ```
 
 </Tab>
 </Tabs>
 
-`type: "password"` mengatur tampilan input. Aturan seperti panjang minimum ditambahkan pada schema jika diperlukan.
+Contoh ini memakai `.min(10)`, sehingga biography perlu berisi minimal 10 karakter.

@@ -8,6 +8,8 @@ const schema = z.object({
   country: z.string(),
 });
 
+type FormValues = z.infer<typeof schema>;
+
 export const SelectDemo = () => {
   const form = useForm({
     defaultValues: { country: "id" },
@@ -23,7 +25,7 @@ export const SelectDemo = () => {
         void form.handleSubmit();
       }}
     >
-      <ErlForm
+      <ErlForm<FormValues>
         form={form}
         schema={schema}
         fieldConfig={{
@@ -40,4 +42,3 @@ export const SelectDemo = () => {
     </form>
   );
 };
-

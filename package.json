@@ -17,7 +17,7 @@
   "dependencies": {
     "@tanstack/react-form": "^1.33.5",
     "@types/mdx": "^2.0.14",
-    "erlangform": "^0.5.1",
+    "erlangform": "^0.5.3",
     "fumadocs-core": "^16.15.4",
     "fumadocs-mdx": "^15.4.0",
     "fumadocs-ui": "^16.15.4",

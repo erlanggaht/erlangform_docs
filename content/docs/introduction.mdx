@@ -48,7 +48,9 @@ const schema = z.object({
   username: z.string().min(3),
 });
 
-<ErlForm form={form} schema={schema} />;
+type FormValues = z.infer<typeof schema>;
+
+<ErlForm<FormValues> form={form} schema={schema} />;
 ```
 
 Field `username` akan dikenali dari schema dan dirender sebagai text input. Untuk mengatur label atau placeholder, gunakan `fieldConfig`.
@@ -59,4 +61,4 @@ Saat ini Zod adalah schema engine utama ErlangForm. Namun konsep ErlangForm tida
 
 ## Mulai belajar
 
-Lanjutkan ke halaman [Input](./input) untuk melihat contoh String dan Number, termasuk pemakaian `fieldConfig`.
+Lanjutkan ke bagian Basic melalui halaman [Text](/docs/basic/text) dan [Number](/docs/basic/number), termasuk pemakaian `fieldConfig`. Untuk struktur data bersarang, lihat [Object Field](/docs/advanced/object) dan [Arrays](/docs/advanced/arrays).

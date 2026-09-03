@@ -8,6 +8,8 @@ const schema = z.object({
   username: z.string().min(3, "Username minimal 3 karakter"),
 });
 
+type FormValues = z.infer<typeof schema>;
+
 export const TextDemo = () => {
   const form = useForm({
     defaultValues: { username: "" },
@@ -23,7 +25,7 @@ export const TextDemo = () => {
         form.handleSubmit();
       }}
     >
-      <ErlForm
+      <ErlForm<FormValues>
         form={form}
         schema={schema}
         fieldConfig={{

@@ -1,0 +1,14 @@
+{
+  "title": "Basic",
+  "defaultOpen": true,
+  "pages": [
+    "text",
+    "number",
+    "password",
+    "textarea",
+    "checkbox",
+    "select",
+    "object",
+    "arrays"
+  ]
+}

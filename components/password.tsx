@@ -8,6 +8,8 @@ const schema = z.object({
   password: z.string(),
 });
 
+type FormValues = z.infer<typeof schema>;
+
 export const PasswordDemo = () => {
   const form = useForm({
     defaultValues: { password: "" },
@@ -23,7 +25,7 @@ export const PasswordDemo = () => {
         void form.handleSubmit();
       }}
     >
-      <ErlForm
+      <ErlForm<FormValues>
         form={form}
         schema={schema}
         fieldConfig={{
@@ -38,4 +40,3 @@ export const PasswordDemo = () => {
     </form>
   );
 };
-

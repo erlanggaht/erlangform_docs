@@ -14,6 +14,8 @@ const schema = z.object({
   ),
 });
 
+type FormValues = z.infer<typeof schema>;
+
 export const ArrayDemo = () => {
   const form = useForm({
     defaultValues: {
@@ -37,22 +39,38 @@ export const ArrayDemo = () => {
         void form.handleSubmit();
       }}
     >
-      <ErlForm
+      <ErlForm<FormValues>
         form={form}
         schema={schema}
         fieldConfig={{
           contacts: {
-            label: "Daftar Kontak",
+            section: "Daftar Kontak",
+            layout: { colSpan: 12 },
             array: {
-              itemLabel: (_: any, index: number) => `Contact ${index + 1}`,
-              addLabel: "Tambah contact",
-              removeLabel: "Hapus contact",
+              itemLabel: (_, index) => `Kontak #${index + 1}`,
+              addLabel: "+ Tambah Kontak Baru",
+              removeLabel: "Hapus Kontak",
+            },
+            type: {
+              label: () => "Tipe Kontak",
+              options: [
+                { label: "Personal", value: "personal" },
+                { label: "Perusahaan", value: "company" },
+              ],
+            },
+            phone: {
+              label: "Nomor Telepon",
+              placeholder: "0812xxxxxxxx",
             },
           },
         }}
+        sectionConfig={{
+          contacts: {
+            title: "Daftar Kontak",
+          },
+        }}
       />
-      <button type="submit" className="demo-button">Simpan</button>
+      <button type="submit" className="demo-button mt-4">Simpan</button>
     </form>
   );
 };
-
