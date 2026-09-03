@@ -1,0 +1,72 @@
+---
+title: Textarea
+description: Membuat input teks multiline.
+---
+
+import { TextareaDemo } from '@/components/textarea';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+<TextareaDemo />
+
+Textarea memakai `z.string()` dengan `type: "textarea"` untuk menulis teks dalam beberapa baris.
+
+## Penggunaan
+
+Simpan `form.tsx` dan `schema.ts` di folder yang sama.
+
+<Tabs items={["form.tsx", "schema.ts"]}>
+<Tab>
+
+```tsx
+"use client";
+
+import { useForm } from "@tanstack/react-form";
+import { ErlForm } from "erlangform";
+import { schema } from "./schema";
+
+export default function TextareaForm() {
+  const form = useForm({
+    defaultValues: { bio: "" },
+    validators: { onChange: schema },
+    onSubmit: ({ value }) => console.log(value),
+  });
+
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        void form.handleSubmit();
+      }}
+    >
+      <ErlForm
+        form={form}
+        schema={schema}
+        fieldConfig={{
+          bio: {
+            label: "Biography",
+            type: "textarea",
+            placeholder: "Ceritakan tentang diri Anda",
+          },
+        }}
+      />
+      <button type="submit">Simpan</button>
+    </form>
+  );
+}
+```
+
+</Tab>
+<Tab>
+
+```ts
+import { z } from "zod";
+
+export const schema = z.object({
+  bio: z.string().min(10),
+});
+```
+
+</Tab>
+</Tabs>
+
+Contoh ini memakai `.min(10)`, sehingga biography perlu berisi minimal 10 karakter.

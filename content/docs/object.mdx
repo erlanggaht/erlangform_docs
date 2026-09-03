@@ -1,0 +1,73 @@
+---
+title: Object Field
+description: Membuat field bersarang dari object schema.
+---
+
+import { ObjectDemo } from '@/components/object';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+<ObjectDemo />
+
+Object Field membaca property di dalam `z.object()` secara rekursif. Bentuk `defaultValues` mengikuti struktur object pada schema.
+
+## Penggunaan
+
+Simpan `form.tsx` dan `schema.ts` di folder yang sama.
+
+<Tabs items={["form.tsx", "schema.ts"]}>
+<Tab>
+
+```tsx
+"use client";
+
+import { useForm } from "@tanstack/react-form";
+import { ErlForm } from "erlangform";
+import { schema } from "./schema";
+
+export default function ObjectForm() {
+  const form = useForm({
+    defaultValues: {
+      profile: {
+        firstName: "",
+        lastName: "",
+      },
+    },
+    validators: { onChange: schema },
+    onSubmit: ({ value }) => console.log(value),
+  });
+
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        void form.handleSubmit();
+      }}
+    >
+      <ErlForm
+        form={form}
+        schema={schema}
+      />
+      <button type="submit">Simpan profile</button>
+    </form>
+  );
+}
+```
+
+</Tab>
+<Tab>
+
+```ts
+import { z } from "zod";
+
+export const schema = z.object({
+  profile: z.object({
+    firstName: z.string(),
+    lastName: z.string(),
+  }),
+});
+```
+
+</Tab>
+</Tabs>
+
+Nilai hasil form tetap bersarang, misalnya `value.profile.firstName` dan `value.profile.lastName`.

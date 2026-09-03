@@ -1,0 +1,62 @@
+---
+title: Introduction
+description: Pengenalan konsep dan cara kerja ErlangForm.
+---
+
+# Apa itu ErlangForm?
+
+ErlangForm adalah component form untuk React yang membaca schema lalu membuat field secara otomatis. Anda cukup mendefinisikan struktur data satu kali, kemudian ErlangForm menggunakannya untuk membangun input dan menampilkan validasi.
+
+## Masalah yang diselesaikan
+
+Pada form React biasa, developer perlu menulis berulang-ulang:
+
+- markup setiap input;
+- label, placeholder, dan deskripsi;
+- koneksi input ke state form;
+- pesan error validasi;
+- aturan tipe data.
+
+ErlangForm mengurangi pekerjaan tersebut dengan menjadikan schema sebagai sumber struktur form.
+
+## Cara kerja
+
+```text
+Schema
+  ↓
+ErlangForm membaca field
+  ↓
+Input dibuat otomatis
+  ↓
+TanStack Form mengelola state
+  ↓
+Zod memvalidasi value
+```
+
+## Peran setiap package
+
+| Package | Peran |
+| --- | --- |
+| `erlangform` | Membuat field dan layout form secara otomatis |
+| `zod` | Mendefinisikan struktur serta aturan validasi |
+| `@tanstack/react-form` | Mengelola state, perubahan value, dan submit |
+
+## Contoh paling sederhana
+
+```tsx
+const schema = z.object({
+  username: z.string().min(3),
+});
+
+<ErlForm form={form} schema={schema} />;
+```
+
+Field `username` akan dikenali dari schema dan dirender sebagai text input. Untuk mengatur label atau placeholder, gunakan `fieldConfig`.
+
+## Roadmap schema
+
+Saat ini Zod adalah schema engine utama ErlangForm. Namun konsep ErlangForm tidak harus terbatas pada Zod. Dukungan untuk schema engine lain dapat ditambahkan melalui adapter di masa depan, dengan target agar component React dan pola konfigurasi tetap familiar.
+
+## Mulai belajar
+
+Lanjutkan ke halaman [Input](./input) untuk melihat contoh String dan Number, termasuk pemakaian `fieldConfig`.

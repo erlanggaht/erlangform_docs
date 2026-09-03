@@ -1,0 +1,74 @@
+---
+title: Select Field
+description: Membuat select dengan options.
+---
+
+import { SelectDemo } from '@/components/select';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+<SelectDemo />
+
+Select memakai `z.string()` dan daftar `options` pada `fieldConfig`. type yang di kembalikan berupa `string`.
+
+## Penggunaan
+
+Simpan `form.tsx` dan `schema.ts` di folder yang sama.
+
+<Tabs items={["form.tsx", "schema.ts"]}>
+<Tab>
+
+```tsx
+"use client";
+
+import { useForm } from "@tanstack/react-form";
+import { ErlForm } from "erlangform";
+import { schema } from "./schema";
+
+export default function SelectForm() {
+  const form = useForm({
+    defaultValues: { country: "id" },
+    validators: { onChange: schema },
+    onSubmit: ({ value }) => console.log(value),
+  });
+
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        void form.handleSubmit();
+      }}
+    >
+      <ErlForm
+        form={form}
+        schema={schema}
+        fieldConfig={{
+          country: {
+            label: "Country",
+            options: [
+              { label: "Indonesia", value: "id" },
+              { label: "Japan", value: "jp" },
+            ],
+          },
+        }}
+      />
+      <button type="submit">Simpan negara</button>
+    </form>
+  );
+}
+```
+
+</Tab>
+<Tab>
+
+```ts
+import { z } from "zod";
+
+export const schema = z.object({
+  bio: z.string().min(5, "Biography minimal 5 karakter"),
+});
+```
+
+</Tab>
+</Tabs>
+
+`label` adalah teks yang terlihat, sedangkan `value` disimpan dalam form. Memilih Indonesia menghasilkan `country: "id"`.

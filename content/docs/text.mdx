@@ -1,0 +1,63 @@
+---
+title: Text 
+description: Type schema string.
+---
+
+import { TextDemo } from '@/components/text';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+<TextDemo />
+Text dibuat dengan `z.string()`. type yang di kembalikan berupa `string`.
+
+## Penggunaan
+
+<Tabs items={["form.tsx", "schema.ts"]}>
+<Tab>
+
+```tsx
+"use client";
+
+import { useForm } from "@tanstack/react-form";
+import { ErlForm } from "erlangform";
+import { schema } from "./schema";
+
+export default function UsernameForm() {
+  const form = useForm({
+    defaultValues: { username: "" },
+    validators: { onChange: schema },
+    onSubmit: ({ value }) => console.log(value),
+  });
+
+  return (
+    <form onSubmit={(event) => { event.preventDefault(); form.handleSubmit(); }}>
+      <ErlForm
+        form={form}
+        schema={schema}
+        fieldConfig={{
+          username: {
+            label: "Username",
+            placeholder: "Enter username",
+          },
+        }}
+      />
+      <button type="submit">Simpan</button>
+    </form>
+  );
+}
+```
+
+</Tab>
+<Tab>
+
+```tsx
+import { z } from "zod";
+
+export const schema = z.object({
+  username: z.string().min(3, "Username minimal 3 karakter"),
+});
+```
+
+</Tab>
+</Tabs>
+
+`fieldConfig` memakai key yang sama dengan property di schema. Karena schema memiliki field `username`, konfigurasi `fieldConfig.username` diterapkan ke input tersebut.

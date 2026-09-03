@@ -1,0 +1,98 @@
+---
+title: Nested Array
+description: Array di dalam object atau array lain.
+---
+
+import { NestedArrayDemo } from '@/components/arrays/nested';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+<NestedArrayDemo />
+
+Nested Array membuat daftar di dalam daftar. Setiap company pada contoh ini memiliki daftar contacts sendiri.
+
+## Penggunaan
+
+Simpan `form.tsx` dan `schema.ts` di folder yang sama.
+
+<Tabs items={["form.tsx", "schema.ts"]}>
+<Tab>
+
+```tsx
+"use client";
+
+import { useForm } from "@tanstack/react-form";
+import { ErlForm } from "erlangform";
+import { schema } from "./schema";
+
+export default function CompaniesForm() {
+  const form = useForm({
+    defaultValues: {
+      companies: [
+        {
+          name: "",
+          contacts: [{ type: "personal", phone: "" }],
+        },
+      ],
+    },
+    validators: { onChange: schema },
+    onSubmit: ({ value }) => console.log(value),
+  });
+
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        void form.handleSubmit();
+      }}
+    >
+      <ErlForm
+        form={form}
+        schema={schema}
+        fieldConfig={{
+          companies: {
+            array: {
+              itemLabel: "Company",
+              addLabel: "Tambah company",
+              removeLabel: "Hapus company",
+            },
+          },
+          contacts: {
+            array: {
+              itemLabel: "Contact",
+              addLabel: "Tambah contact",
+              removeLabel: "Hapus contact",
+            },
+          },
+        }}
+      />
+      <button type="submit">Simpan companies</button>
+    </form>
+  );
+}
+```
+
+</Tab>
+<Tab>
+
+```ts
+import { z } from "zod";
+
+export const schema = z.object({
+  companies: z.array(
+    z.object({
+      name: z.string(),
+      contacts: z.array(
+        z.object({
+          type: z.string(),
+          phone: z.string(),
+        }),
+      ),
+    }),
+  ),
+});
+```
+
+</Tab>
+</Tabs>
+
+Bentuk `defaultValues` mengikuti schema, sampai ke array contacts. Nilai seperti `companies[0].contacts[0].phone` dikelola oleh TanStack Form. Konfigurasi field bersarang pada versi saat ini memakai nama field (`contacts`), bukan path lengkap.

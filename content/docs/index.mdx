@@ -1,0 +1,49 @@
+---
+title: Quick Start
+description: Instalasi dan penggunaan awal ErlangForm.
+---
+
+import { TextDemo } from '@/components/text';
+
+
+ErlangForm adalah form builder untuk React yang membuat field secara otomatis dari schema. Saat ini ErlangForm menggunakan Zod sebagai schema engine dan TanStack Form untuk mengelola state form.
+
+## Instalasi wajib
+
+Install ErlangForm bersama dependency yang dibutuhkan:
+
+```bash
+npm install erlangform zod @tanstack/react-form
+```
+
+> `zod` digunakan untuk mendefinisikan struktur dan validasi schema. `@tanstack/react-form` digunakan untuk state, event, dan proses submit form.
+
+## Demo singkat
+
+<TextDemo />
+
+## Penggunaan dasar
+
+```tsx
+import { useForm } from "@tanstack/react-form";
+import { ErlForm } from "erlangform";
+import { z } from "zod";
+
+const schema = z.object({
+  name: z.string().min(2),
+});
+
+const form = useForm({
+  defaultValues: { name: "" },
+  validators: { onChange: schema },
+  onSubmit: ({ value }) => console.log(value),
+});
+
+<ErlForm form={form} schema={schema} />;
+```
+
+## Tidak hanya Zod
+
+Zod adalah integrasi pertama dan sumber schema yang digunakan ErlangForm saat ini. Ke depannya, arsitektur ErlangForm dapat diperluas dengan adapter untuk schema engine lain, tanpa mengubah pola penggunaan component form secara keseluruhan.
+
+Untuk sekarang, gunakan Zod agar type inference dan validasi berjalan sesuai API yang tersedia.

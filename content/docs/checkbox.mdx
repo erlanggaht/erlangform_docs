@@ -1,0 +1,71 @@
+---
+title: Checkbox
+description: Membuat checkbox dari schema boolean.
+---
+
+import { CheckboxDemo } from '@/components/checkbox';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+<CheckboxDemo />
+
+Checkbox dibuat dari `z.boolean()`. Nilainya adalah `true` saat diceklis dan `false` saat tidak dicentang.
+
+## Penggunaan
+
+Simpan `form.tsx` dan `schema.ts` di folder yang sama.
+
+<Tabs items={["form.tsx", "schema.ts"]}>
+<Tab>
+
+```tsx
+"use client";
+
+import { useForm } from "@tanstack/react-form";
+import { ErlForm } from "erlangform";
+import { schema } from "./schema";
+
+export default function CheckboxForm() {
+  const form = useForm({
+    defaultValues: { acceptTerms: false },
+    validators: { onChange: schema },
+    onSubmit: ({ value }) => alert(JSON.stringify(value)),
+  });
+
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        void form.handleSubmit();
+      }}
+    >
+      <ErlForm
+        form={form}
+        schema={schema}
+        fieldConfig={{
+          acceptTerms: {
+            label: "Saya menyetujui syarat dan ketentuan",
+            type: "checkbox",
+          },
+        }}
+      />
+      <button type="submit">Lanjutkan</button>
+    </form>
+  );
+}
+```
+
+</Tab>
+<Tab>
+
+```ts
+import { z } from "zod";
+
+export const schema = z.object({
+  acceptTerms: z.boolean(),
+});
+```
+
+</Tab>
+</Tabs>
+
+`z.boolean()` menerima `true` maupun `false`; schema ini belum mewajibkan pengguna mencentang persetujuan.

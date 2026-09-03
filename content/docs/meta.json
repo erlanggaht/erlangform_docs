@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "introduction",
+    "index",
+    "text",
+    "number",
+    "password",
+    "textarea",
+    "checkbox",
+    "select",
+    "object",
+    "arrays"
+  ]
+}
