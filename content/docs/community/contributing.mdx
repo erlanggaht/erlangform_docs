@@ -1,0 +1,147 @@
+---
+title: Contributing
+description: Alur fork, branch, pengujian, dan pull request untuk ErlangForm.
+---
+
+Kontribusi dapat berupa perbaikan bug, fitur, type-safety, pengujian, dokumentasi, atau contoh penggunaan.
+
+## Apakah harus fork?
+
+Jika Anda bukan collaborator yang memiliki akses tulis, gunakan **fork**. Fork membuat salinan repository di akun GitHub Anda sehingga perubahan dapat dikembangkan tanpa akses langsung ke repository utama.
+
+Jika Anda adalah collaborator dengan akses tulis, Anda dapat membuat branch langsung pada repository utama. Tetap hindari mengerjakan perubahan langsung di branch utama.
+
+## Pilih repository
+
+| Ingin mengubah | Repository |
+| --- | --- |
+| Component, API, tipe TypeScript, inferensi schema, atau perilaku form | [erlangform](https://github.com/erlanggaht/erlangform) |
+| Isi dokumentasi, demo, sidebar, styling, atau website ini | [erlangform_docs](https://github.com/erlanggaht/erlangform_docs) |
+
+## Alur kontribusi dengan fork
+
+### 1. Fork repository
+
+- [Fork ErlangForm](https://github.com/erlanggaht/erlangform/fork)
+- [Fork ErlangForm Docs](https://github.com/erlanggaht/erlangform_docs/fork)
+
+### 2. Clone fork Anda
+
+Contoh untuk library:
+
+```bash
+git clone https://github.com/USERNAME/erlangform.git
+cd erlangform
+```
+
+Contoh untuk dokumentasi:
+
+```bash
+git clone https://github.com/USERNAME/erlangform_docs.git
+cd erlangform_docs
+```
+
+Ganti `USERNAME` dengan username GitHub Anda.
+
+### 3. Tambahkan repository utama sebagai upstream
+
+Untuk library:
+
+```bash
+git remote add upstream https://github.com/erlanggaht/erlangform.git
+```
+
+Untuk dokumentasi:
+
+```bash
+git remote add upstream https://github.com/erlanggaht/erlangform_docs.git
+```
+
+Remote `origin` menunjuk ke fork Anda, sedangkan `upstream` menunjuk ke repository utama.
+
+### 4. Buat branch perubahan
+
+```bash
+git switch -c fix/nama-perbaikan
+```
+
+Gunakan nama yang menjelaskan tujuan perubahan, misalnya `fix/number-validation` atau `docs/field-config-example`.
+
+### 5. Install dependency dan jalankan project
+
+Untuk library ErlangForm:
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Untuk website dokumentasi:
+
+```bash
+npm install
+npm run dev
+```
+
+### 6. Periksa perubahan
+
+Library ErlangForm:
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm build
+```
+
+Website dokumentasi:
+
+```bash
+npm run lint
+npm run build
+```
+
+Untuk perubahan dokumentasi, buka halaman yang diubah dan pastikan preview, tab kode, sidebar, light mode, dan dark mode masih terbaca dengan benar.
+
+### 7. Commit dan push
+
+```bash
+git add .
+git commit -m "fix: describe the change"
+git push -u origin fix/nama-perbaikan
+```
+
+### 8. Buat pull request
+
+Buka fork Anda di GitHub, lalu pilih **Compare & pull request**. Arahkan pull request dari branch fork ke repository utama.
+
+Deskripsi pull request sebaiknya mencantumkan:
+
+- masalah yang diselesaikan;
+- perubahan yang dibuat;
+- cara memeriksa hasilnya;
+- screenshot untuk perubahan tampilan;
+- issue terkait, jika ada.
+
+## Menjaga fork tetap terbaru
+
+Sebelum memulai kontribusi berikutnya, ambil perubahan terbaru dari repository utama:
+
+```bash
+git fetch upstream
+git switch main
+git merge upstream/main
+git push origin main
+```
+
+Jika branch utama repository Anda bukan `main`, sesuaikan nama branch pada perintah tersebut.
+
+## Panduan khusus dokumentasi
+
+- Tempatkan file MDX pada kelompok yang sesuai di `content/docs`.
+- Tambahkan halaman ke `meta.json` agar muncul di sidebar.
+- Letakkan demo React di `components` dan pisahkan berdasarkan fitur.
+- Gunakan tab `form.tsx` dan `schema.ts` untuk contoh lengkap.
+- Turunkan tipe dengan `z.infer<typeof schema>` dan gunakan `<ErlForm<FormValues>>`.
+- Jangan mengubah banyak topik yang tidak berkaitan dalam satu pull request.
+
+Jika Anda hanya ingin melaporkan masalah tanpa menulis kode, gunakan panduan [Report a Bug](/docs/community/report-a-bug).

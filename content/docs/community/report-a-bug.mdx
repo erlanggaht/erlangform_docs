@@ -1,0 +1,69 @@
+---
+title: Report a Bug
+description: Cara memilih repository dan membuat laporan bug yang mudah diperiksa.
+---
+
+Sebelum membuat laporan, tentukan apakah masalah berasal dari library ErlangForm atau dari website dokumentasi.
+
+| Masalah | Laporkan ke |
+| --- | --- |
+| Field tidak dirender, validasi salah, type error, atau perilaku `fieldConfig` tidak sesuai | [ErlangForm Issues](https://github.com/erlanggaht/erlangform/issues/new) |
+| Typo, contoh kode salah, tautan rusak, sidebar, atau tampilan website dokumentasi | [ErlangForm Docs Issues](https://github.com/erlanggaht/erlangform_docs/issues/new) |
+
+## Sebelum membuat issue
+
+1. Pastikan masalah masih terjadi pada versi terbaru yang Anda gunakan.
+2. Cari issue yang sudah ada agar laporan tidak duplikat.
+3. Buat contoh sekecil mungkin yang masih menunjukkan masalah.
+4. Hapus password, token, data pelanggan, dan informasi pribadi dari contoh.
+
+Untuk melihat versi ErlangForm yang terpasang:
+
+```bash
+npm list erlangform
+```
+
+## Informasi yang perlu disertakan
+
+Laporan yang baik menjelaskan:
+
+- versi `erlangform`, React, Zod, dan `@tanstack/react-form`;
+- framework dan versi browser atau Node.js;
+- perilaku yang diharapkan;
+- perilaku yang benar-benar terjadi;
+- pesan error lengkap;
+- schema, `defaultValues`, dan `fieldConfig` minimum untuk mereproduksi masalah;
+- screenshot jika masalah berkaitan dengan tampilan.
+
+## Contoh laporan
+
+````md
+## Ringkasan
+Input number tidak menampilkan pesan validasi setelah nilainya dikosongkan.
+
+## Versi
+- erlangform: 0.x.x
+- React: 19.x
+- Zod: 4.x
+- @tanstack/react-form: 1.x
+
+## Langkah reproduksi
+1. Render schema di bawah.
+2. Kosongkan input age.
+3. Pindahkan fokus ke input lain.
+
+## Hasil yang diharapkan
+Pesan "Umur wajib diisi" ditampilkan.
+
+## Hasil aktual
+Tidak ada pesan validasi.
+
+## Contoh minimum
+```tsx
+const schema = z.object({
+  age: z.number().min(1, "Umur wajib diisi"),
+});
+```
+````
+
+Jika Anda sudah mengetahui perbaikannya dan ingin mengirim kode, lanjutkan ke [Contributing](/docs/community/contributing).

@@ -19,6 +19,10 @@ content/
     │   ├── meta.json
     │   ├── field-config.mdx
     │   └── field-section.mdx
+    ├── community/
+    │   ├── meta.json
+    │   ├── report-a-bug.mdx
+    │   └── contributing.mdx
     └── advanced/
         ├── meta.json
         ├── object.mdx
@@ -34,6 +38,7 @@ content/
 - `docs/basic/`: field tunggal seperti Text, Password, dan Select.
 - `docs/configuration/`: pengaturan lintas field seperti `fieldConfig` dan section. Demo masing-masing berada di `components/configuration/`.
 - `docs/advanced/`: struktur data bersarang dan konfigurasi lanjutan.
+- `docs/community/`: laporan bug dan alur kontribusi ke library atau dokumentasi.
 - Buat subfolder ketika satu fitur membutuhkan beberapa halaman, seperti `advanced/arrays/`.
 
 ## Menambah halaman
