@@ -7,6 +7,10 @@ description: Pengenalan konsep dan cara kerja ErlangForm.
 
 ErlangForm adalah component form untuk React yang membaca schema lalu membuat field secara otomatis. Anda cukup mendefinisikan struktur data satu kali, kemudian ErlangForm menggunakannya untuk membangun input dan menampilkan validasi.
 
+## Kenapa dibuat?
+
+ErlForm awalnya dibuat sebagai library pribadi untuk mengurangi pekerjaan berulang saat membangun formulir React. Setelah pola schema, validasi, konfigurasi field, dan data bertingkat mulai sering dipakai di beberapa proyek, library ini dirapikan agar bisa digunakan ulang dengan API yang tetap sederhana dan fleksibel.
+
 ## Masalah yang diselesaikan
 
 Pada form React biasa, developer perlu menulis berulang-ulang:
@@ -57,7 +61,7 @@ Field `username` akan dikenali dari schema dan dirender sebagai text input. Untu
 
 ## Roadmap schema
 
-Saat ini Zod adalah schema engine utama ErlangForm. Namun konsep ErlangForm tidak harus terbatas pada Zod. Dukungan untuk schema engine lain dapat ditambahkan melalui adapter di masa depan, dengan target agar component React dan pola konfigurasi tetap familiar.
+Saat ini Zod adalah schema engine utama ErlangForm. Namun konsep ErlangForm tidak harus terbatas pada Zod. Dukungan untuk schema engine lain dapat ditambahkan melalui adapter lain seperti yup, , dengan target agar component React dan pola konfigurasi tetap familiar.
 
 ## Mulai belajar
 
